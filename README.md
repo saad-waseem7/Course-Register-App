@@ -2,7 +2,8 @@
 
 A powerful, database-driven system designed to streamline hospital operations and improve patient care.  
 
-## 🚧 Status: In Development  
+## 🚧 Status
+**In Development**  
 
 ## 📘 Overview  
 
