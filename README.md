@@ -4,13 +4,9 @@ A powerful, database-driven system designed to streamline hospital operations an
 
 ## 🚧 Status: In Development  
 
----
-
 ## 📘 Overview  
 
 The **Modern Hospital Management System** is designed to manage patient records, doctor schedules, appointments, billing, and more — all in one place. Built to reduce paperwork, enhance data security, and ensure smoother hospital administration.  
-
----
 
 ## ✨ Planned Features  
 
@@ -29,21 +25,15 @@ The **Modern Hospital Management System** is designed to manage patient records,
 - 🔒 **User Access Control** – Implement role-based access for doctors, staff, and patients.  
 - 📊 **Reports & Analytics** – Generate performance stats, patient data insights, and revenue reports.  
 
----
-
 ## 🛠️ Tech Stack  
 
 - 💾 **Database:** SQL  
 - 🎯 **Frontend:** User-friendly interface (TBD)  
 - ⚡ **Backend:** C# (or preferred language, TBD)  
 
----
-
 ## 📝 Getting Started  
 
 - This project is still in development — setup instructions coming soon!  
 - Contributions and feedback are welcome as we build.  
-
----
 
 ⚠️ **Note:** This is a work in progress. Features may change as development continues. Stay tuned!  
