@@ -1,6 +1,6 @@
 ## 🎯 Multi-Project Repository  
 
-This repo contains two powerful, database-driven management systems designed to simplify operations for educational institutions and hospitals.  
+This repo contains two database-driven management systems designed to simplify operations for educational institutions and hospitals.  
 
 ---
 
