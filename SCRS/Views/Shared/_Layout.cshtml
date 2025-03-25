@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Student Course Registration System for managing students, courses, and registrations">
+    <meta name="cache-control" content="max-age=86400, public">
+    <meta name="theme-color" content="#3498db">
+    <title>@ViewBag.Title - Student Course Registration System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
+    
+    <!-- Prefetch common navigation paths -->
+    <link rel="prefetch" href="@Url.Action("Index", "Home")">
+    <link rel="prefetch" href="@Url.Action("Index", "Student")">
+    <link rel="prefetch" href="@Url.Action("Index", "Course")">
+    <link rel="prefetch" href="@Url.Action("Index", "Registration")">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold" href="@Url.Action("Index", "Home")">
+                <i class="fas fa-graduation-cap mr-2"></i>Student Course Registration
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item px-1">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">
+                            <i class="fas fa-home mr-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item px-1">
+                        <a class="nav-link" href="@Url.Action("Index", "Student")">
+                            <i class="fas fa-user-graduate mr-1"></i> Students
+                        </a>
+                    </li>
+                    <li class="nav-item px-1">
+                        <a class="nav-link" href="@Url.Action("Index", "Course")">
+                            <i class="fas fa-book mr-1"></i> Courses
+                        </a>
+                    </li>
+                    <li class="nav-item px-1">
+                        <a class="nav-link" href="@Url.Action("Index", "Registration")">
+                            <i class="fas fa-clipboard-list mr-1"></i> Registrations
+                        </a>
+                    </li>
+                    <li class="nav-item px-1">
+                        <a class="nav-link" href="@Url.Action("About", "Home")">
+                            <i class="fas fa-info-circle mr-1"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item pl-3 d-flex align-items-center">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="darkModeSwitch">
+                            <label class="custom-control-label" for="darkModeSwitch">
+                                <i class="fas fa-moon theme-icon-dark ml-1"></i>
+                                <i class="fas fa-sun theme-icon-light ml-1"></i>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page loading indicator -->
+    <div id="loading-indicator" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        <div class="mt-4 pt-5">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle mr-2"></i> @TempData["SuccessMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle mr-2"></i> @TempData["ErrorMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @RenderBody()
+        </div>
+        <hr />
+        <footer class="text-center text-muted py-3">
+            <p>&copy; @DateTime.Now.Year - Student Course Registration System</p>
+        </footer>
+    </div>
+
+    <!-- Back to top button -->
+    <a id="back-to-top" href="#" class="btn btn-primary btn-sm back-to-top" role="button">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <!-- System Monitor Panel -->
+    <div id="systemMonitor" class="system-monitor">
+        <div><strong>System Status:</strong> <span id="systemStatus">Online</span></div>
+        <div><strong>Page Load:</strong> <span id="pageLoadTime">0</span> ms</div>
+        <div><strong>Memory Usage:</strong> <span id="memoryUsage">0</span> MB</div>
+        <div><strong>Cache Hits:</strong> <span id="cacheHits">0</span></div>
+        <div><strong>Cache Misses:</strong> <span id="cacheMisses">0</span></div>
+    </div>
+
+    <!-- Keyboard Shortcuts Modal -->
+    <div class="modal fade" id="keyboardShortcutsModal" tabindex="-1" role="dialog" aria-labelledby="keyboardShortcutsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="keyboardShortcutsModalLabel">
+                        <i class="fas fa-keyboard mr-2"></i>Keyboard Shortcuts
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Shortcut</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><kbd>Ctrl</kbd> + <kbd>H</kbd></td>
+                                <td>Go to Home</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Ctrl</kbd> + <kbd>S</kbd></td>
+                                <td>Go to Students</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Ctrl</kbd> + <kbd>C</kbd></td>
+                                <td>Go to Courses</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Ctrl</kbd> + <kbd>R</kbd></td>
+                                <td>Go to Registrations</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Ctrl</kbd> + <kbd>D</kbd></td>
+                                <td>Toggle Dark Mode</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Esc</kbd></td>
+                                <td>Close Alerts</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>?</kbd></td>
+                                <td>Show This Help</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>M</kbd></td>
+                                <td>Toggle System Monitor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Error logging utility
+        window.ErrorLogger = {
+            init: function() {
+                window.onerror = function(message, source, lineno, colno, error) {
+                    // Log to console first
+                    console.error('Error:', message, 'Source:', source, 'Line:', lineno, 'Column:', colno, 'Error object:', error);
+                    
+                    // In a real application, you could send this to a server endpoint
+                    // Example: $.post('/api/log-error', { message, source, lineno, colno });
+                    
+                    // Show friendly message to user if needed
+                    if (error && error.fatal) {
+                        alert('An error occurred. Please refresh the page and try again.');
+                    }
+                    
+                    return false;
+                };
+            }
+        };
+        
+        // Initialize error logger
+        ErrorLogger.init();
+        
+        // Performance monitoring
+        window.PerformanceMonitor = {
+            timers: {},
+            startTimer: function(name) {
+                this.timers[name] = performance.now();
+            },
+            endTimer: function(name) {
+                if (this.timers[name]) {
+                    const duration = performance.now() - this.timers[name];
+                    console.log(`${name} took ${duration.toFixed(2)} ms`);
+                    delete this.timers[name];
+                    return duration;
+                }
+                return null;
+            },
+            getMemoryInfo: function() {
+                // Return memory usage if available
+                if (performance && performance.memory) {
+                    return Math.round(performance.memory.usedJSHeapSize / (1024 * 1024));
+                }
+                return 0;
+            }
+        };
+        
+        // Data cache system
+        window.DataCache = {
+            cache: {},
+            cacheHits: 0,
+            cacheMisses: 0,
+            maxAge: 5 * 60 * 1000, // 5 minutes default
+            
+            // Store data in cache
+            set: function(key, data, customMaxAge) {
+                const timestamp = Date.now();
+                const maxAge = customMaxAge || this.maxAge;
+                
+                this.cache[key] = {
+                    data: data,
+                    timestamp: timestamp,
+                    maxAge: maxAge
+                };
+                
+                // Store in localStorage for persistence if it's not too big
+                try {
+                    const item = { data, timestamp, maxAge };
+                    localStorage.setItem('cache_' + key, JSON.stringify(item));
+                } catch (e) {
+                    console.warn('Could not store cache item in localStorage:', e);
+                }
+                
+                return data;
+            },
+            
+            // Get data from cache
+            get: function(key) {
+                // First check memory cache
+                const cacheItem = this.cache[key];
+                
+                if (!cacheItem) {
+                    // Check localStorage
+                    try {
+                        const storedItem = localStorage.getItem('cache_' + key);
+                        if (storedItem) {
+                            const parsedItem = JSON.parse(storedItem);
+                            // Add it to memory cache
+                            this.cache[key] = parsedItem;
+                            return this.validate(key, parsedItem);
+                        }
+                    } catch (e) {
+                        console.warn('Error retrieving cache from localStorage:', e);
+                    }
+                    
+                    this.cacheMisses++;
+                    return null;
+                }
+                
+                return this.validate(key, cacheItem);
+            },
+            
+            // Validate cache freshness
+            validate: function(key, cacheItem) {
+                const now = Date.now();
+                const age = now - cacheItem.timestamp;
+                
+                if (age > cacheItem.maxAge) {
+                    // Cache is stale
+                    // We don't delete it immediately, mark it as stale
+                    cacheItem.stale = true;
+                    this.cacheMisses++;
+                    return { data: cacheItem.data, stale: true };
+                }
+                
+                this.cacheHits++;
+                return { data: cacheItem.data, stale: false };
+            },
+            
+            // Clear entire cache or a specific key
+            clear: function(key) {
+                if (key) {
+                    delete this.cache[key];
+                    try {
+                        localStorage.removeItem('cache_' + key);
+                    } catch (e) {
+                        console.warn('Error clearing cache from localStorage:', e);
+                    }
+                } else {
+                    this.cache = {};
+                    try {
+                        // Clear only cache items, not other localStorage items
+                        Object.keys(localStorage).forEach(key => {
+                            if (key.startsWith('cache_')) {
+                                localStorage.removeItem(key);
+                            }
+                        });
+                    } catch (e) {
+                        console.warn('Error clearing cache from localStorage:', e);
+                    }
+                }
+            },
+            
+            // Get cache stats
+            getStats: function() {
+                return {
+                    cacheHits: this.cacheHits,
+                    cacheMisses: this.cacheMisses,
+                    itemCount: Object.keys(this.cache).length
+                };
+            }
+        };
+        
+        $(document).ready(function() {
+            // Start performance timer
+            PerformanceMonitor.startTimer('pageLoad');
+            
+            // Set active nav item based on current URL
+            var currentUrl = window.location.pathname;
+            
+            // Clear any existing active classes
+            $('.navbar-nav .nav-link').removeClass('active');
+            $('.navbar-nav .nav-item').removeClass('active');
+            
+            // Special case for home page
+            if (currentUrl === '/' || currentUrl.toLowerCase() === '/home' || currentUrl.toLowerCase() === '/home/index') {
+                // Only activate the Home link
+                $('.navbar-nav .nav-link').each(function() {
+                    var href = $(this).attr('href');
+                    if (href === '/' || href.toLowerCase() === '/home' || href.toLowerCase() === '/home/index') {
+                        $(this).addClass('active');
+                        $(this).parent().addClass('active');
+                    }
+                });
+            } else {
+                // For other pages
+                $('.navbar-nav .nav-link').each(function() {
+                    var linkUrl = $(this).attr('href');
+                    // Don't match Home link for other pages
+                    if (linkUrl && linkUrl !== '/' && 
+                        linkUrl.toLowerCase() !== '/home' && 
+                        linkUrl.toLowerCase() !== '/home/index' && 
+                        currentUrl.indexOf(linkUrl) !== -1) {
+                        $(this).addClass('active');
+                        $(this).parent().addClass('active');
+                    }
+                });
+            }
+
+            // Check if user previously enabled dark mode
+            const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+            
+            // Function to set dark mode state
+            function setDarkModeState(isDarkMode) {
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    $('#darkModeSwitch').prop('checked', true);
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    $('#darkModeSwitch').prop('checked', false);
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            }
+            
+            // Apply dark mode if it was previously enabled
+            setDarkModeState(darkModeEnabled);
+            
+            // Toggle dark mode when switch is clicked
+            $('#darkModeSwitch').change(function() {
+                setDarkModeState($(this).is(':checked'));
+            });
+
+            // Smooth animation for dark mode toggle
+            $('.custom-switch').hover(
+                function() { $(this).css('transform', 'scale(1.1)'); },
+                function() { $(this).css('transform', 'scale(1)'); }
+            );
+            
+            // Back to top button
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            
+            $('#back-to-top').click(function(e) {
+                e.preventDefault();
+                $('html, body').animate({scrollTop: 0}, 300);
+                return false;
+            });
+            
+            // Page loading indicator
+            $(document).on('click', 'a:not([href^="#"]):not([target="_blank"]):not([href^="javascript"]):not([href^="mailto"])', function() {
+                $('#loading-indicator').fadeIn();
+            });
+            
+            // Auto-hide alerts after 5 seconds
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 5000);
+            
+            // Keyboard shortcuts
+            $(document).keydown(function(e) {
+                // Check if Ctrl or Cmd key is pressed
+                const ctrlKey = e.ctrlKey || e.metaKey;
+                
+                // Ctrl+H: Home
+                if (ctrlKey && e.keyCode === 72) {
+                    e.preventDefault();
+                    window.location.href = '@Url.Action("Index", "Home")';
+                }
+                // Ctrl+S: Students
+                else if (ctrlKey && e.keyCode === 83) {
+                    e.preventDefault();
+                    window.location.href = '@Url.Action("Index", "Student")';
+                }
+                // Ctrl+C: Courses
+                else if (ctrlKey && e.keyCode === 67) {
+                    e.preventDefault();
+                    window.location.href = '@Url.Action("Index", "Course")';
+                }
+                // Ctrl+R: Registrations
+                else if (ctrlKey && e.keyCode === 82) {
+                    e.preventDefault();
+                    window.location.href = '@Url.Action("Index", "Registration")';
+                }
+                // Ctrl+D: Toggle dark mode
+                else if (ctrlKey && e.keyCode === 68) {
+                    e.preventDefault();
+                    $('#darkModeSwitch').click();
+                }
+                // Escape: Close alerts
+                else if (e.keyCode === 27) {
+                    $('.alert').alert('close');
+                }
+                // ? key: Show keyboard shortcuts
+                else if (e.keyCode === 191 && e.shiftKey) {
+                    e.preventDefault();
+                    $('#keyboardShortcutsModal').modal('show');
+                }
+                // Ctrl+Alt+M: Toggle System Monitor
+                else if (e.ctrlKey && e.altKey && e.keyCode === 77) {
+                    e.preventDefault();
+                    $('#systemMonitor').toggle();
+                    
+                    // Update system monitor info
+                    const stats = DataCache.getStats();
+                    $('#cacheHits').text(stats.cacheHits);
+                    $('#cacheMisses').text(stats.cacheMisses);
+                    $('#memoryUsage').text(PerformanceMonitor.getMemoryInfo());
+                }
+            });
+            
+            // Show keyboard shortcuts button in the navbar
+            $('.navbar-brand').after(
+                $('<button>', {
+                    type: 'button',
+                    class: 'btn btn-link text-white ml-2 p-0',
+                    'data-toggle': 'modal',
+                    'data-target': '#keyboardShortcutsModal',
+                    html: '<i class="fas fa-keyboard" title="Keyboard Shortcuts"></i>'
+                })
+            );
+            
+            // End performance timer and update system monitor
+            const loadTime = PerformanceMonitor.endTimer('pageLoad');
+            $('#pageLoadTime').text(loadTime.toFixed(2));
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html> 
