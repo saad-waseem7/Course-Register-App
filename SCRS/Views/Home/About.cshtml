@@ -1,0 +1,40 @@
+@{
+    ViewBag.Title = "About";
+}
+
+<h2>@ViewBag.Message</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>About This System</h3>
+        <p>
+            This Student Course Registration System is a simple application designed to demonstrate 
+            database operations using SQL Server with ASP.NET MVC. It allows for management of students,
+            courses, and registrations between them.
+        </p>
+        
+        <h3>Features</h3>
+        <ul>
+            <li>Student management (add/view students)</li>
+            <li>Course management (add/view courses)</li>
+            <li>Registration management (register students for courses, drop courses)</li>
+            <li>Grade management (assign grades to students for courses)</li>
+        </ul>
+        
+        <h3>Technical Details</h3>
+        <ul>
+            <li>Built with ASP.NET MVC</li>
+            <li>Uses SQL Server database as the backend</li>
+            <li>Implements stored procedures for database operations</li>
+            <li>Simple and clean architecture to demonstrate database concepts</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <p>
+            <a class="btn btn-default" href="@Url.Action("Index", "Home")">Back to Home</a>
+        </p>
+    </div>
+</div> 

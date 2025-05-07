@@ -1,0 +1,48 @@
+@{
+    ViewBag.Title = "Update Grade";
+    var course = ViewBag.Course as SCRS.Models.Course;
+    var student = ViewBag.Student as SCRS.Models.Student;
+}
+
+<h2>Update Grade for @student.FullName</h2>
+
+<h4>Course: @course.CourseCode - @course.CourseName</h4>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        
+        <input type="hidden" name="courseId" value="@course.CourseID" />
+        <input type="hidden" name="studentId" value="@student.StudentID" />
+        
+        <div class="form-group">
+            <label class="control-label col-md-2">Grade</label>
+            <div class="col-md-10">
+                <select name="grade" class="form-control">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update Grade" class="btn btn-success" />
+                @Html.ActionLink("Back to Students", "Students", new { id = course.CourseID }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+} 

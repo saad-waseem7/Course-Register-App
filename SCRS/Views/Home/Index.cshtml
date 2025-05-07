@@ -1,0 +1,83 @@
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="jumbotron text-center mb-4">
+    <h1 class="display-4">Student Course Registration System</h1>
+    <p class="lead">Manage students, courses, and registrations efficiently</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <div class="dashboard-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h4 class="card-title">Students</h4>
+                <p class="card-text">Manage student information, view enrolled courses, and add new students.</p>
+                <a href="@Url.Action("Index", "Student")" class="btn btn-primary">
+                    <i class="fas fa-users mr-1"></i> Manage Students
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <div class="dashboard-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h4 class="card-title">Courses</h4>
+                <p class="card-text">Manage course information, view enrolled students, and add new courses.</p>
+                <a href="@Url.Action("Index", "Course")" class="btn btn-primary">
+                    <i class="fas fa-list mr-1"></i> Manage Courses
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card dashboard-card h-100">
+            <div class="card-body text-center">
+                <div class="dashboard-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h4 class="card-title">Registrations</h4>
+                <p class="card-text">Manage student course enrollments, update grades, and add new registrations.</p>
+                <a href="@Url.Action("Index", "Registration")" class="btn btn-primary">
+                    <i class="fas fa-tasks mr-1"></i> Manage Registrations
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle mr-2"></i>Quick Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="fas fa-arrow-right text-primary mr-2"></i>
+                        Add new students and courses before creating registrations
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-arrow-right text-primary mr-2"></i>
+                        Use the Registrations page to efficiently manage all enrollments
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-arrow-right text-primary mr-2"></i>
+                        View a student's courses by clicking on "Courses" in the student list
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fas fa-arrow-right text-primary mr-2"></i>
+                        View students enrolled in a course by clicking on "Students" in the course list
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> 
