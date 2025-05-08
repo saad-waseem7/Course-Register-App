@@ -84,7 +84,7 @@ A modern, responsive student course registration system built with **ASP.NET MVC
 
 1. **Clone the repository:**  
     ```bash
-    git clone https://github.com/yourusername/Student-Course-Registration-System.git
+    git clone https://github.com/yourusername/Course-Register-App.git
     ```
 2. **Open the solution in Visual Studio.**  
 3. **Update the connection string** in `Web.config` to match your SQL Server.  
